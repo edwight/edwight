@@ -120,8 +120,8 @@ return array(
 		|
 		*/
 
-		'model' => 'Cartalyst\Sentry\Users\Eloquent\User',
-
+		//'model' => 'Cartalyst\Sentry\Users\Eloquent\User',
+		'model' => 'User',
 		/*
 		|--------------------------------------------------------------------------
 		| Login Attribute

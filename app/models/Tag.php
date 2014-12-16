@@ -24,4 +24,5 @@ class Tag extends Eloquent {
         return $this->belongsToMany('Post');
     }
 
+
 }

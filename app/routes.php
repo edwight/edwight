@@ -13,9 +13,16 @@
 
 Route::get('/','PostController@index');
 //Route::get('/','PostController@index');
+Route::get('/{id}/{slug}', function($id, $slug)
+{
+	return "id ".$id." slug ".$slug;
+        
+    //return Response::error('404');
+})->where(array('id' => '[0-9]+','slug', '([A-z\d-\/_.]+)?'));
+
 Route::get('tags/{slug}', function($slug)
 {
-	
+	return "tags ".$slug;
     //do whatever you want with the slug
     //$phone = User::with('phone')->where('id',1)->first()->phone; 
     $tag = DB::table('tags')->where('name', $slug)->first();
@@ -30,7 +37,9 @@ Route::get('tags/{slug}', function($slug)
 Route::group(array('before' => 'auth.admin'), function()
 {
 	//Route::controller('users', 'UserController');
-	Route::resource('users', 'UserController');
+	Route::resource('admin/users', 'UserController');
+	Route::resource('admin/tags', 'TagsController');
+	Route::resource('admin/category', 'CategoryController');
 	Route::resource('admin', 'AdminController');
 	Route::get('logout','AuthController@logout');
 });
@@ -108,15 +117,23 @@ Route::get('user2', function()
 	{
 	    // Create the user
 	    $user = Sentry::createUser(array(
-	        'email'       => 'john.doee@example.com',
-	        'password'    => 'test',
-	        'activated'   => true,
-	        'permissions' => array(
-	            'admin' =>  1,
-	            'editor' => 1,
-	            'user'   => 1,
+	    	'first_name'	 => 'edwight',
+			'last_name' 	 => 'delgado',
+	        'email'       	 => 'edwardelgado0@gmail.com',
+	        'password'    	 => '19252368',
+	        'activated'   	 => true,
+	        'permissions' 	 => array(
+	            'admin' 	 =>  1,
+	            'editor' 	 => 1,
+	            'user'   	 => 1,
 	        ),
+
 	    ));
+
+	    $perfiles = new Perfil;
+       	$perfiles->photo =  "public/imgs/user/bob2j.jpeg";
+        $user->perfil()->save($perfiles);
+        return Redirect::to('/')->with('message', 'Logged in with Facebook');
 	}
 	catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
 	{
@@ -315,3 +332,9 @@ Route::any('tema/{slug}', function($slug)
 Route::get('login','AuthController@login');
 
 Route::post('login','AuthController@postLogin');
+
+Route::get('scoll', function()
+   {
+        $posts = Post::paginate(6);
+        return View::make('scoll')->with('posts', $posts);
+   });

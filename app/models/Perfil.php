@@ -21,3 +21,4 @@ class Perfil extends Eloquent {
         return $this->belongTo('User');
     }
 }
+

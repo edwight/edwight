@@ -2,6 +2,7 @@
 
 class UserController extends \BaseController {
 
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -11,6 +12,8 @@ class UserController extends \BaseController {
 	{	
 		//lista de usuario
 		$user=User::all();
+		//$user = Sentry::findAllUsers();
+		//return Sentry::getUser();
 		return View::make('user.index', array('user'=>$user));
 	}
 
@@ -22,6 +25,9 @@ class UserController extends \BaseController {
 	 */
 	public function create()
 	{
+		// si usiario tiene permiso de admin entonces Sentry::getUser()->id;
+			// Feel free to pass a string for just one permission instead
+			//$users = Sentry::findAllUsersWithAccess(array('admin', 'other'));
 		//nuevo usuario
 		//lista de usuario
 		return View::make('user.create');
@@ -142,6 +148,12 @@ class UserController extends \BaseController {
 	public function destroy($id)
 	{
 		//eliminar usuario 
+		$filename = public_path().'/uploads/foo.bar';
+
+		if (File::exists($filename)) 
+		{
+    		File::delete($filename);
+		}
 	}
 
 

@@ -36,34 +36,144 @@ class AdminController extends \BaseController {
 	 */
 	public function store()
 	{
-		return Input::all();
-		//procesar el post 
-		$id = Input::get('user');
-		$user = User::find($id);
-		$file = Input::file("photo");
-		$fecha = new DateTime('today');
-		//return date_format($fecha, 'Y-m-d H:i:s');		
-		//return var_dump($fecha);
-		return $filename = date_format($fecha, 'D-m-y ').' , '.$file->getClientOriginalName();
-		//$start_day = date("d-m-Y", strtotime($start_day_old));
-		$file->move('public/imgs/post', $filename);
-		return $file->getClientOriginalName();
-		//return 'store '.$id.' '.Input::get('titulo').' '.$user;
+		//validacion 
+		$reglas =  array
+		(
+	        'titulo'  => 'required', 
+	        'slug'  => 'required', 
+	        'categorys'  => 'required',
+	            // validamos que el nombre sea un campo obligatorio 
+	        'contenido' => array('required', 'min:8'), 
+	            // validamos que el usuario sea un campo obligatorio y de mínimo 8 caracteres
+	        'imagen'  => array('unique:imgs'),
+	            // validemos que el correo sea un campo obligatorio y con formato de email
+    	);
+    	$messages = array(
+            'required' => 'El campo :attribute es obligatorio.',
+            'min' => 'El campo :attribute no puede tener menos de :min carácteres.',
+            'email' => 'El campo :attribute debe ser un email válido.',
+            'max' => 'El campo :attribute no puede tener más de :max carácteres.',
+            'unique' => 'El email ingresado ya existe en la base de datos'
+        );
+        $nuevo = array(
+        	'categorys' => Input::get('categorys'),
+        	'titulo' => Input::get('titulo'),
+        	'slug' => Input::get('slug'),
+        	'contenido' => Input::get('contenido'),
+        	'imagen' => Input::file("photo")
+        	);
+
+        $validation = Validator::make($nuevo, $reglas, $messages);
+		if ( $validation->fails())
+		{
+        // en caso de que la validación falle vamos a retornar al formulario 
+        // pero vamos a enviar los errores que devolvió Validator
+        // y también los datos que el usuario escribió 
+        	return Redirect::to('admin/create')
+                // Aquí se esta devolviendo a la vista los errores 
+                ->withErrors($validation)
+                // Aquí se esta devolviendo a la vista todos los datos del formulario
+                ->withInput();
+    	}
+    	else
+    	{
+
+        	//'Datos Validos!';
+        	$titulo = Input::get('titulo');
+        	$category = Input::get('categorys');
+			$user = Sentry::getUser();
+			$userId = $user->id;
+			//insertar Post
+			$users = User::find($userId);
+			$post = new Post;
+			$post->titulo = $titulo;
+			$post->slugPost = str_replace(' ','-',$titulo);
+			$post->contenido = Input::get('contenido');
+			//$post->slug = Input::get('url');
+			$users->post()->save($post);
+			//insertar categoria
+			/*if (isset($category)) {
+				
+					$categorys = Category::find($category);
+					$post->categorys()->save($categorys);
+				
+			} */
+			//insertar tags
+			$tag=Input::get('tags');
+			if (isset($tag)) {
+				foreach ($tag as $tagId) {
+					$tags = Tag::find($tagId);
+					$post->tags()->attach($tags);
+				}
+			}
+			//$post->slug = Input::get('url');
+
+			$date = date('Y-m-d');
+			//insertar image
+			$file = Input::file("photo");
+		
+			if (!empty($file))
+			{
+				//return "definida";
+				$filename = $date.'__'.$file->getClientOriginalName();
+				//return $fileSize = $filename->getClientSize();
+				//$start_day = date("d-m-Y", strtotime($start_day_old));
+				//$filename = $file->getClientOriginalName();
+				$file->move('public/imgs/post', $filename);
+
+				$Imgfile   =   new Img;
+				$Imgfile->imagen = $filename;
+				$post->img()->save($Imgfile);	
+			}
+		
+			return Redirect::to('admin');
+    	}
+    	/*
+		$categorys = Input::get('categorys');
+		$user = Sentry::getUser();
+		$userId = $user->id;
+		//return $id = Input::get('user');
+			//return $user = User::find($id);
+		
+		//insertar Post
+		$users = user::find($userId);
 		$post = new Post;
 		$post->titulo = Input::get('titulo');
 		$post->contenido = Input::get('contenido');
 		//$post->slug = Input::get('url');
-		$user->post()->save($post);
+		$users->post()->save($post);
+		//insertar tags
 		$tag=Input::get('tags');
-
 		if (isset($tag)) {
 				foreach ($tag as $tagId) {
 					$tags = Tag::find($tagId);
 					$post->tags()->attach($tags);
 				}
 			}
-		
+		//$post->slug = Input::get('url');
+
+		$date = date('Y-m-d');
+		//insertar tags
+		$file = Input::file("photo");
+		if (!empty($file))
+		{
+			return "definida";
+			/*
+			$filename = $date.'__'.$file->getClientOriginalName();
+			//return $fileSize = $filename->getClientSize();
+			//$start_day = date("d-m-Y", strtotime($start_day_old));
+			//$filename = $file->getClientOriginalName();
+			$file->move('public/imgs/post', $filename);
+
+			$Imgfile   =   new Img;
+			$Imgfile->imagen = $filename;
+			$post->img()->save($Imgfile);
+			
+			
+		}
+			//$Imgfile->retina = 
 		return Redirect::to('admin');
+		*/
 	}
 
 
@@ -104,11 +214,27 @@ class AdminController extends \BaseController {
 	public function update($id)
 	{
 		//procesar el post 
-		return $user = Sentry::getUser();
-		return $id = Input::get('user');
-		return $user = User::find($id);
+		$categorys = Input::get('categorys');
+		$user = Sentry::getUser();
+		$userId = $user->id;
+		//return $id = Input::get('user');
+			//return $user = User::find($id);
+		
+		//insertar Post
+		$users = user::find($userId);
+		$post = Post::find($id);
+		$post->titulo = Input::get('titulo');
+		$post->contenido = Input::get('contenido');
+		//$post->slug = Input::get('url');
+		$users->post()->save($post);
+		//insertar categoria
+		$category = new Category;
+		$category->name = $categorys;
+		$post->categories()->save($category);
+		//$post->slug = Input::get('url');
+		return "punto";
 		$file = Input::file("photo");
-		$fecha = new DateTime('today');
+		return $fecha = new DateTime('today');
 
 		//return date_format($fecha, 'Y-m-d H:i:s');		
 		//return var_dump($fecha);

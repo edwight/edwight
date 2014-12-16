@@ -18,5 +18,11 @@
                	   @endforeach
             </select>
     {{-- More fields... --}}
+    {{ Form::label('category', 'Category') }}
+            <select name="categorys" id="categorys" size="6" class="form-control">
+                @foreach (Category::all() as $categorys)
+                    <option value="{{ $categorys->name }}">{{ $categorys->name }}</option>
+                @endforeach
+            </select>
     {{ Form::submit('Save', ['name' => 'submit']) }}
 {{ Form::close() }}

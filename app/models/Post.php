@@ -23,4 +23,8 @@ class Post extends Eloquent {
     {
         return $this->hasMany('Category');
     }
+     public function img()
+    {
+        return $this->hasOne('Img');
+    }
 }

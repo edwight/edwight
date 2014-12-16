@@ -10,7 +10,7 @@
 		</figure>
 		<div class="contenido">
 			<div class="author"><span class="icon-user"></span>edwight delgado</div>
-			<div class="titulo">{{ $posts->titulo }}</div>
+			<div class="titulo">{{ HTML::link( '/'.$posts->id.'/'.$posts->slugPost , $posts->titulo )}}</div>
 			<div class="datos">
 				<div class="fecha"><span class="icon-calendar"></span>{{$posts->create_at}}</div>
 				<div class="comentarios">

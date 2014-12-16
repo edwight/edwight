@@ -5,8 +5,9 @@
 @foreach($post as $posts)
 	<article class="articulo">
 		<figure class="imagen">
-			 {{ HTML::image('imgs/post/angular.jpg', "Imagen no encontrada")}}
-			<img src="img/angular.jpg" >
+			@if($posts->img)
+				{{ HTML::image('imgs/post/'.$posts->img->imagen, "Imagen no encontrada")}}
+			@endif
 		</figure>
 		<div class="contenido">
 			<div class="author"><span class="icon-user"></span>edwight delgado</div>
@@ -28,8 +29,10 @@
 		 				<br>
 						<p>{{ $posts->titulo}}</p>
 					<p>{{ $posts->contenido}}</p>
- 					<p>{{$posts->user->email}}</p>
-
+ 					<p>{{$posts->user->email}}</p>	
+ 					@foreach ($posts->tags as $tags)
+						<p><h3>Tags:</h3>{{$tags->name}}</p>
+					@endforeach
  					{{ Form::open(['route' => ['admin.destroy', $posts->id], 'method' => 'delete']) }}
 						<button type="submit">Delete</button>
 					{{ Form::close() }}

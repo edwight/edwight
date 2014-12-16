@@ -14,7 +14,10 @@ class CreatePerfiles extends Migration {
 	{
 		Schema::create('perfiles', function(Blueprint $table){
 			$table->increments('id');
-			$table->string('photo',100);
+			$table->string('photo',100)->nullable()->unique();
+			$table->string('facebook',100)->nullable()->unique();
+			$table->string('twitter',100)->nullable()->unique();
+			$table->string('descripcion',100)->nullable();
 			$table->integer('user_id');
 			$table->timestamps();
 		});

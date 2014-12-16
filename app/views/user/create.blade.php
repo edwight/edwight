@@ -1,30 +1,36 @@
 
+  {{ HTML::ul($errors->all()) }}
 
 {{ Form::open(array('action' => array('UserController@store'), 'files' => true)) }}
-            {{Form::label('primer nombre', 'Primer Nombre')}}
-            {{Form::text('first_name', Input::old('first_name'))}}
+    {{Form::label('primer nombre', 'Primer nombre')}}
+    {{Form::text('first_name', Input::old('first_name') )}}
+    {{Form::label('segundo nombre', 'Segundo Nombre')}}
+    {{Form::text('last_name', Input::old('last_name'))}}
 
-            {{Form::label('segundo nombre', 'Segundo Nombre')}}
-            {{Form::text('last_name', Input::old('last_name'))}}
+    {{Form::label('email', 'Email')}}
+    {{Form::text('email',Input::old('email'))}}
 
-            {{Form::label('email', 'Email')}}
-            {{Form::email('email', Input::old('email'))}}
-            {{Form::label('password', 'Password')}}
-            {{Form::password('password', Input::old('password'))}}
+    {{Form::label('password', 'Password')}}
+    {{Form::password('password')}}
 
-            {{Form::label('admin', 'Admin')}}
-            {{ Form::checkbox('admin', '1') }}
+    {{Form::label('descripcion', 'Descripcion')}}
+    {{Form::text('descripcion', '')}}
 
-            {{Form::label('editor', 'Editor')}}
-            {{ Form::checkbox('editor', '1') }}
+    {{Form::label('facebook', 'Facebook')}}
+    {{Form::text('facebook', '')}}
 
-            {{Form::label('user', 'User')}}
-            {{ Form::checkbox('user', '1', true) }}
+    {{Form::label('twitter', 'Twitter')}}
+    {{Form::text('twitter', '')}}
 
-            {{ Form::label('photo', 'Foto') }}
-                
-                <!--así se crea un campo file en laravel-->
-            {{ Form::file('photo') }}
+    {{ Form::label('file','File',array('id'=>'file')) }}
+    {{ Form::file('photos','',array('class'=>'photos')) }}
 
-            {{Form::submit('Guardar')}}
-  {{ Form::close() }}
+    {{Form::label('editor', 'Editor')}}
+    {{ Form::checkbox('editor', '1') }}
+
+    {{Form::label('user', 'User')}}
+    {{ Form::checkbox('user', '1', true) }}
+
+
+    {{Form::submit('Guardar')}}
+    {{ Form::close() }}
