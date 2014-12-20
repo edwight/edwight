@@ -19,7 +19,9 @@ class CreatePosts extends Migration {
 			$table->string('subtitulo', 100)->nullable();
 			$table->text('contenido');
 			$table->text('descripcion')->nullable();
+			//$table->integer('columna');
 			$table->integer('user_id');
+			$table->integer('category_id');
 			$table->timestamps();
 		});
 	}

@@ -13,12 +13,7 @@
 
 Route::get('/','PostController@index');
 //Route::get('/','PostController@index');
-Route::get('/{id}/{slug}', function($id, $slug)
-{
-	return "id ".$id." slug ".$slug;
-        
-    //return Response::error('404');
-})->where(array('id' => '[0-9]+','slug', '([A-z\d-\/_.]+)?'));
+Route::get('/{id}/{slug}','PostController@show')->where(array('id' => '[0-9]+','slug', '([A-z\d-\/_.]+)?'));
 
 Route::get('tags/{slug}', function($slug)
 {

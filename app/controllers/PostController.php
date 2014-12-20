@@ -10,7 +10,8 @@ class PostController extends \BaseController {
 	public function index()
 	{	
 		//lista de usuario
-		$post = Post::all();
+		//$post = Post::all();
+		$post = Post::paginate(3);
 		return View::make('post.index', array('post'=>$post));
 	}
 
@@ -18,8 +19,8 @@ class PostController extends \BaseController {
 	public function show($id)
 	{
 		//detalles del usuario 
-		$user = User::find($id);
-		return View::make('post.show')->with('user', $user);
+		$post = Post::find($id);
+		return View::make('post.show')->with('post', $post);
 	}
 
 

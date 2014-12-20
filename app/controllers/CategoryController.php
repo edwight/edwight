@@ -35,6 +35,7 @@ class CategoryController extends \BaseController {
 		$category = Input::get('category');
 		$categorys = new Category;
 		$categorys->name = $category;
+		$categorys->slugCategory = str_replace(' ','-',$category);
 		$categorys->save();
 		return Redirect::to('admin/category');
 	}

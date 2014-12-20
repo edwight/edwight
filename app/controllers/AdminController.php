@@ -9,7 +9,7 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		$post = Post::all();
+		$post = Post::paginate(3);
 		//mostrar la lista de post
 		$tags = Tag::all();
 		return View::make('admin.index', array('post'=>$post, 'tags'=>$tags));
@@ -40,7 +40,6 @@ class AdminController extends \BaseController {
 		$reglas =  array
 		(
 	        'titulo'  => 'required', 
-	        'slug'  => 'required', 
 	        'categorys'  => 'required',
 	            // validamos que el nombre sea un campo obligatorio 
 	        'contenido' => array('required', 'min:8'), 
@@ -89,8 +88,13 @@ class AdminController extends \BaseController {
 			$post->titulo = $titulo;
 			$post->slugPost = str_replace(' ','-',$titulo);
 			$post->contenido = Input::get('contenido');
+			//$post->category()->name = $category;
 			//$post->slug = Input::get('url');
+
+			//insertar categoria
 			$users->post()->save($post);
+			$categorys = Category::find($category);
+			$categorys->posts()->save($post);
 			//insertar categoria
 			/*if (isset($category)) {
 				

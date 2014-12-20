@@ -1,83 +1,78 @@
 @extends('layouts.master')
-@section('detalles')
-<section class="principal">
-				<article class="articulo">
-					<div class="contenido">
-						<div class="izquierda">
-							<figure class="imagen">
-								<img src="img/angular.jpg" >
-							</figure>
-							<div class="titulo">Siendo realistas, no vamos a colonizar a Marte por ahora [FW Opinión]</div>
-
-							<div class="author"><span class="icon-user"></span>por 
-								<strong>edwight delgado</strong>
-							</div>
-							<div class="categoria">Ciencias Ciencias</div>
-							<div class="social"></div>
-							<div class="post">
-								<p>Hace algunos soles viví cerca de la zona de lanzamiento espacial de Cabo Cañaveral y, en ese entonces como estudiante de física, fui parte de infinidad de eventos relacionados con esta cultura. Hubo sinfín de lanzamientos del Shuttle o satélites a propulsión por múltiples cohetes que, aun cuando no estuvieras ahí para verlos, podías apreciarlos desde la distancia.</p>
-
-								<p>Mi actividad favorita de entonces era ir a la NASA y platicar con los astronautas que prestaran su tiempo de comida para las visitas al centro espacial. Como muchos, desde niña soñaba con ir al espacio y actividades como éstas alimentaban ese deseo. Sin embargo, falta mucho, si no es que todo, para que ir "de viaje al espacio" sea factible. Gente: el salto de mandar bien lejos un robot espacial y a un humano al espacio es un asunto que requiere décadas de trabajo.</p>
-							</div>
-						</div>
-						
-						<div class="derecha">
-							<div class="tags">
-								<a href="#" class="tag">
-									Python
-								</a>
-								<a href="#" class="tag">
-									html
-								</a>
-								<a href="#" class="tag">
-									laravel 
-								</a>
-								<a href="#" class="tag">
-									node.js 
-								</a>
-								<a href="#" class="tag">
-									estadisticas
-								</a>
-								<a href="#" class="tag">
-									git
-								</a>
-								<a href="#" class="tag">
-									youtube 
-								</a>
-								<a href="#" class="tag">
-									etiqueta muy larga
-								</a>
-							</div>
-							<div class="relacionado">
-								<article class="articulo">
-									<figure class="imagen">
-										<img src="img/angular.jpg" >
-									</figure>
-									<div class="contenido">
-										<div class="author"><span class="icon-user"></span>edwight delgado</div>
-										<div class="titulo">Crumbles transforma texto en alta resolusion video con Homero Simpson y otros personajes</div>
-										<div class="datos">
-											<div class="fecha"><span class="icon-calendar"></span>hace 35 minutos</div>
-											<div class="comentarios">
-												<span class="icon-bubble"></span><strong>35</strong>
-											</div>
-										</div>
-									</div>
-									<div class="tagss">laravel</div>
-								</article>
-							</div>
-						</div>
-					</div><!-- end contenido -->
-				</article>
+@section('show')
+<article class="article-detalles--col1">
+	<section class="imagen-detalles">
+		<figure class="fimg">
+			@if($post->img)
+			{{ HTML::image('imgs/post/'.$post->img->imagen, "Imagen no encontrada")}}
+			@else
+			<img ng-src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg" src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg">
+			@endif
+		</figure>
+	</section>
+	<div class="atras"></div>
+	<div class="contenido-detalles">
+		<section class="categoria">
+			<a href="."><p>Politica</p></a>
+		</section>
+		<section class="body-text">
+			<a href="{{ 'admin/'.$post->id.'/edit'}}">
+				<h2 class="titulo">{{$post->titulo}}</h2>
+			</a>
 		</section>
 
-<p>{{ $post->id }}</p>
-<p>{{ $post->titulo }}</p>
-<p>{{ $post->contenido }}</p>
+		<section class="body-text">
+			<p dir="ltr">Mediante una publicación en su blog, Uber <a href="http://blog.uber.com/ride-ahead">anunció</a> que trabajará en mejorar sus políticas de privacidad, convirtiéndose en “una compañía más humilde”. Este anuncio acompaña a la noticia de que <a href="http://www.fayerwayer.com/tag/uber/">Uber</a> recibió USD $1.200 millones en financiamiento, ocasión que también se aprovechó para compartir los planes a futuro del servicio de transporte individual de pasajeros.</p>
+		
+		</section>
+		<section class="author-detalles">
+		
+			<figure class="img-detalles">
+				<a href=""><img ng-src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg" src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg">
+				</a>
+			</figure>
+			<div class="contenido-detalles">
+				<span>por</span><a href=""> Daniel Villalobos</a>
+			</div>
+		</section>
+		<ul class="tags">
+		@foreach ($post->tags as $tags)
+		<li>
+			<a href="/tag/privacidad/" class="ng-binding">{{$tags->name}}</a>
+		</li>
+		@endforeach
+			
+		
+		</ul>
+	</div>
+	<div class="comentarios"></div>
+</article>
+		<aside class="aside-detalles--col2">
+			<ul class="list">
+				<li class="item">
+					<article class="article"><!--  si -->
+						<figure class="fimg">
+							<img ng-src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg" src="http://static.betazeta.com/www.fayerwayer.com/up/2014/12/terminator-genysis-1-320x210.jpg">
+						</figure>
+						<div class="author">
+							<a href="/author/daniel-villalobos/">Daniel Villalobos</a>
+						</div>
+						<div class="contenido">
+							<a ng-href="/2014/12/conoce-el-primer-trailer-oficial-de-terminator-genisys/"  class="toPost" href="/2014/12/conoce-el-primer-trailer-oficial-de-terminator-genisys/" rel="">
+								<h2 class="title">Conoce el primer tráiler oficial de Terminator: Genisys
+								 Conoce el primer tráiler oficial de Terminator: Genisys</h2>
+							</a>
+						</div>
+						<div class="actions">
+							<ul>
+								<li><a class="ng-binding">hace una hora</a></li>
+								<li><a class="ng-binding icon-export">456</a></li>
+							</ul>
+						</div>
+					</article>
+				</li>
+			</ul>
+		</aside>
 
-<p>{{ $post->created_at}}</p>
-
-
-<p><strong>{{ HTML::link( 'admin/'.$post->id.'/edit') }}</strong></p>
 
 @stop

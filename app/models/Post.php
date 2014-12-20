@@ -19,9 +19,10 @@ class Post extends Eloquent {
     {
         return $this->belongsToMany('Tag');
     }
-    public function categories()
+    
+    public function category()
     {
-        return $this->hasMany('Category');
+        return $this->belongsTo('Category');
     }
      public function img()
     {
